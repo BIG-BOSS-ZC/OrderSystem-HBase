@@ -1,0 +1,107 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>订单</title>
+    <!--    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">-->
+</head>
+<body>
+<div th:insert="~{header :: nav}"></div>
+
+<div class="container" style="margin: 50px;">
+
+    <form class="layui-form" action="#">
+        <div class="layui-form-item">
+            <label class="layui-form-label">时间</label>
+            <div class="layui-input-inline">
+                <select id="timeInterval" name="timeInterval" lay-verify="required">
+                    <option value="ALL">不限</option>
+                    <option value="LAST_WEEK">一周内</option>
+                    <option value="LAST_MONTH">一个月内</option>
+                    <option value="LAST_3_MONTH">三个月内</option>
+                    <option value="LAST_6_MONTH">半年内</option>
+                    <option value="LAST_YEAR">一年内</option>
+                    <option value="LAST_3_YEAR">三年内</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="*">搜索</button>
+                </div>
+            </div>
+        </div>
+       <!-- <div class="layui-form-item">
+            <label class="layui-form-label">条件查询</label>
+            <div class="layui-input-inline">
+                <select id="searchType" name="searchType">
+                    <option value=""></option>
+                    <option value="0">订单ID</option>
+                    <option value="1">商品ID</option>
+                    <option value="2">商品类别</option>
+                    <option value="3">商品名称</option>
+                </select>
+            </div>
+            <div class="layui-input-inline">
+                <input type="text" id="searchContent" name="searchContent" placeholder="请输入查询内容"
+                       class="layui-input">
+            </div>
+            <div class="layui-input-inline">
+                <div class="layui-input-block">
+                    <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="*">搜索</button>
+                </div>
+            </div>
+        </div>
+-->
+    </form>
+    <table id="demo" lay-filter="test" style="padding: 10px 20px;"></table>
+    <script type="text/html" id="idTpl" th:inline="none">
+        <a id="titleTpl" href="/user/order?orderId={{d.orderid}}"
+                style="text-decoration: underline; color: blue;">{{d.orderid}}</a>
+    </script>
+
+    <script type="text/javascript"  th:inline="none">
+//Demo
+layui.use(['table', 'element', 'form'], function(){
+  var table = layui.table;
+    var form = layui.form;
+    var $ = layui.$;
+
+
+    table.render({
+        // ,templet: '#proTpl',templet: '#timeTpl'
+        elem: '#demo'
+        ,url: '/user/order/list'
+        ,cols: [[
+            {field: 'orderid', title: 'ID', width : 300, templet: '#idTpl', width: "20%"}
+            ,{field: 'proids', title: '商品信息', width: "60%"}
+            ,{field: 'ordertime', title: '时间', sort: true}
+        ]]
+        ,page: true
+    });
+
+    form.on('submit(*)', function(data){
+        var searchType = $('#searchType').val();
+        var searchContent = $('#searchContent').val();
+        if (searchType == "0") {
+            window.location.href = "/user/order?orderId=" + searchContent;
+            return false;
+        }
+        table.reload('demo', {
+            where: {
+                timeInterval : $('#timeInterval').val(),
+                searchType : $('#searchType').val(),
+                searchContent : $('#searchContent').val()
+            }
+        });
+        return false; //阻止表单跳转。如果需要表单跳转，去掉这段即可。
+    });
+    form.render();
+});
+    </script>
+    <hr>
+
+    <div th:insert="~{foot :: foot}"></div>
+</div> <!-- /container -->
+</body>
+
+</html>

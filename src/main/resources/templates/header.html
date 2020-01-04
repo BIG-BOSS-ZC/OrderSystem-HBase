@@ -1,0 +1,46 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<body>
+
+<div th:fragment="nav">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.js"></script>
+    <script src="/static/js/jquery.min.js"></script>
+<style>
+    .logout {
+        width: 100px;
+        border: 0;
+        padding: 2px;
+        cursor: pointer;
+    }
+</style>
+    <ul class="layui-nav" lay-filter="">
+        <li class="layui-nav-item"><a th:href="@{/}">首页</a></li>
+        <li class="layui-nav-item"><a th:href="@{/user/order}">订单</a></li>
+
+        <li class="layui-nav-item" style="float: right">
+            <a class="btn btn-success" th:href="@{/login}" th:unless="${#httpServletRequest.remoteUser}">登录</a></li>
+        <li class="layui-nav-item" style="float: right">
+            <a class="btn btn-info" th:href="@{/registry}" th:unless="${#httpServletRequest.remoteUser}">注册</a></li>
+
+        <li class="layui-nav-item" style="float: right" th:if="${#httpServletRequest.remoteUser}">
+            <a href=""><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
+            <dl class="layui-nav-child">
+                <dd><a th:href="@{/user/index}">修改信息</a></dd>
+                <form action="#" th:action="@{/logout}" method="post" th:if="${#httpServletRequest.remoteUser}" style="float: right; margin: 0 10;">
+                    <input class="logout" type="submit" value="退出" />
+                </form>
+            </dl>
+        </li>
+    </ul>
+<script>
+//注意：导航 依赖 element 模块，否则无法进行功能性操作
+layui.use('element', function(){
+  var element = layui.element;
+
+  //…
+});
+</script>
+</div>
+</body>
+</html>

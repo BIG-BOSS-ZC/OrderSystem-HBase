@@ -1,0 +1,102 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:if="${modify}">用户中心 | hopu</title>
+    <title th:unless="${modify}">注册 | hopu</title>
+</head>
+
+<body style="background-color: #f1f1f1; padding-bottom: 0">
+
+<div th:insert="~{header :: nav}"></div>
+
+<div class="container" style="margin-top: 60px">
+    <form th:action="${modify}?'/registry?modify=true':'/registry'" method="post" th:object="${user}"
+          class="layui-form" style="margin: 50px auto; width: 400px;">
+
+        <div class="layui-form-item" th:unless="${modify}">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-block">
+                <input type="text" name="nickName" required  lay-verify="required" placeholder="请输入用户名"
+                       class="layui-input" th:field="*{loginname}">
+            </div>
+        </div>
+
+        <div th:if="${modify}" hidden>
+            <input name="id" placeholder="id" th:field="*{id}">
+            <input name="nickName" placeholder="账号" th:field="*{loginname}">
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">密码</label>
+            <div class="layui-input-block">
+                <input type="password" name="password" required  lay-verify="required" placeholder="密码"
+                       class="layui-input" th:field="*{password}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">姓名</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" required  lay-verify="required" placeholder="姓名"
+                       class="layui-input" th:field="*{truename}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">年龄</label>
+            <div class="layui-input-block">
+                <input type="text" name="age" required  lay-verify="required" placeholder="年龄"
+                       class="layui-input" th:field="*{age}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">性别</label>
+            <div class="layui-input-block">
+                <input type="radio" name="sex" value="男" title="男" th:field="*{sex}">
+                <input type="radio" name="sex" value="女" title="女" th:field="*{sex}">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">邮箱</label>
+            <div class="layui-input-block">
+                <input type="text" name="email" required  lay-verify="required" placeholder="邮箱"
+                       class="layui-input" th:field="*{email}">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址</label>
+            <div class="layui-input-block">
+                <input type="text" name="address" required  lay-verify="required" placeholder="地址"
+                       class="layui-input" th:field="*{address}">
+            </div>
+        </div>
+
+        <br>
+        <div th:if="${error}">
+            <p style="text-align: center" class="text-danger">注册失败：[[${error_msg}]]</p>
+        </div>
+
+        <div class="layui-form-item" th:if="${result}">
+            <div class="layui-input-block">
+                <p style="color:#009688">[[${result}]]</p>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn layui-btn-fluid" lay-submit lay-filter="formDemo">
+                    [[${modify}?'保存':'注册']]</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+<script>
+layui.use('form', function(){
+  var form = layui.form;
+});
+</script>
+</html>

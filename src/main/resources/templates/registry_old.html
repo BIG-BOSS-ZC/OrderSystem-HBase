@@ -1,0 +1,105 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:if="${modify}">用户中心 | hopu</title>
+    <title th:unless="${modify}">注册 | hopu</title>
+<!--    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">-->
+</head>
+
+<body style="background-color: #f1f1f1; padding-bottom: 0">
+
+<div th:insert="~{header :: nav}"></div>
+
+<div class="container" style="margin-top: 60px">
+
+    <div class="row" style="margin-top: 100px">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <span th:if="${modify}" class="glyphicon glyphicon-console">用户</span>
+                        <span th:unless="${modify}" class="glyphicon glyphicon-console">Registry</span>
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <form th:action="${modify}?'/registry?modify=true':'/registry'" method="post" th:object="${user}">
+                        <div class="form-group" style="margin-top: 30px" th:unless="${modify}">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">账号</div>
+                                <input type="text" class="form-control" name="nickName" id="nickName"
+                                       placeholder="账号" th:field="*{nickName}" required>
+                            </div>
+                        </div>
+                        <div th:if="${modify}" hidden>
+                            <input name="id" id="id" placeholder="id" th:field="*{id}">
+                            <input name="nickName" id="nickName" placeholder="账号" th:field="*{nickName}">
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">密码</div>
+                                <input type="password" class="form-control" name="password" id="password"
+                                       placeholder="密码" th:field="*{password}" required>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">姓名</div>
+                                <input type="text" class="form-control" name="name" id="name"
+                                       placeholder="姓名" th:field="*{name}">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">年龄</div>
+                                <input type="text" class="form-control" name="age" id="age"
+                                       placeholder="年龄" th:field="*{age}">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">性别</div>
+                                <label><input name="sex" type="radio" value="男" th:field="*{sex}" />男</label>
+                                <label><input name="sex" type="radio" value="女" th:field="*{sex}" />女</label>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">邮箱</div>
+                                <input type="text" class="form-control" name="email" id="email"
+                                       placeholder="邮箱" th:field="*{email}">
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <div class="input-group col-md-6 col-md-offset-3">
+                                <div class="input-group-addon">地址</div>
+                                <input type="text" class="form-control" name="address" id="address"
+                                       placeholder="地址" th:field="*{address}">
+                            </div>
+                        </div>
+                        <br>
+                        <div th:if="${error}">
+                            <p style="text-align: center" class="text-danger">注册失败：[[${error_msg}]]</p>
+                        </div>
+                        <div th:if="${result}">
+                            <p style="text-align: center" class="text-success" th:text="${result}"></p>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group col-md-6 col-md-offset-3 col-xs-12 ">
+                                <button type="submit" class="btn btn-primary btn-block">
+                                    <span th:if="${modify}">保存</span>
+                                    <span th:unless="${modify}">注册</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+
+</html>

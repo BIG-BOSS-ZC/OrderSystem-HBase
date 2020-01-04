@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>订单</title>
+    <!--    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css" rel="stylesheet">-->
+</head>
+<body>
+<div th:insert="~{header :: nav}"></div>
+
+<div class="container">
+    <div th:if="${noData}" style="margin: 20px; text-align: center; font-size: 16px; color: red;">
+        订单不存在！
+    </div>
+    <div style="margin:20px;" th:unless="${noData}">
+        <div style="font-size: 15px; color: blue; line-height: 25px;">
+            <div>订单号：[[${order.orderId}]]</div>
+            <div>订单状态：[[${order.state.equals("finished")?"已完成":"未完成"}]]</div>
+            <div>下单时间：[[${order.orderTime}]]</div>
+            <div>所购商品：</div>
+            <hr>
+        </div>
+        <div class="layui-row layui-col-space10">
+            <div class="layui-col-md4" th:each="product : ${order.itemList}">
+                <div class="layui-row">
+                    <div class="layui-col-md6">
+                        <img th:src="@{${product.imgurl}}"/>
+                    </div>
+                    <div class="layui-col-md6" style="padding:20px 0 0 20px;">
+                        <div style="margin-top:10px;">
+                            <span style="font-weight:bold;">商品编号：</span>
+                            <span>[[${product.proid}]]</span></div>
+                        <div style="margin-top:10px;">
+                            <span style="font-weight:bold;">商品名称：</span>
+                            <span>[[${product.name}]]</span></div>
+                        <div style="margin-top:10px; font-weight:bold;">
+                            <span>价格：</span>
+                            <span style="color:red;">[[${product.price}]]</span>元</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript"  th:inline="none">
+//Demo
+layui.use(['element'], function(){
+
+});
+
+    </script>
+    <hr>
+
+    <div th:insert="~{foot :: foot}"></div>
+</div> <!-- /container -->
+</body>
+
+</html>
